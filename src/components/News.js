@@ -112,6 +112,8 @@ export default class News extends Component {
                     ? element.urlToImage
                     : 'https://via.placeholder.com/150'
                 }
+                author={element.author}
+                date={element.publishedAt}
                 url={element.url}
               />
             </div>
