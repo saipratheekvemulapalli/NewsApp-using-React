@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 
 export default class Newsitem extends Component {
+    
   render() {
     const { title, description, imageUrl, url, author, date } = this.props;
+    let finaldate =new Date(date);
+    let formateddate = `${finaldate.getDate()}-${finaldate.getMonth()+1}-${finaldate.getFullYear()}`;
+     
 
     return (
       <div className='my-3'>
@@ -21,7 +25,7 @@ export default class Newsitem extends Component {
             <p className="card-text">{description}</p>
             <p className="card-text">
               <small className="text-muted">
-                By {!author ? "Unknown source" : author} last updated on {date}
+                By {!author ? "Unknown source" : author} last updated on {formateddate}
               </small>
             </p>
             <a
