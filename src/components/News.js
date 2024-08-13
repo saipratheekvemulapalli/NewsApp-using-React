@@ -89,7 +89,9 @@ export default class News extends Component {
   };
 
   render() {
+    const filteredArticles = this.state.articles.filter(article => article.title !== "[Removed]");
     return (
+      
       <div className="container my-3">
         <h2 className="text-center">NewsApp</h2>
         {this.state.loading && <Spinner />} {/* Show spinner if loading */}
@@ -115,6 +117,7 @@ export default class News extends Component {
                 author={element.author}
                 date={element.publishedAt}
                 url={element.url}
+                source={element.source.name}
               />
             </div>
           ))}
