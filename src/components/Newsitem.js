@@ -5,7 +5,7 @@ export default class Newsitem extends Component {
   render() {
     const { title, description, imageUrl, url, author, date } = this.props;
     let finaldate =new Date(date);
-    let formateddate = `${finaldate.getDate()}-${finaldate.getMonth()+1}-${finaldate.getFullYear()}`;
+    let formateddate = `${finaldate.getDate()}-${finaldate.getMonth()+1}-${finaldate.getFullYear()} ${finaldate.getHours()>12?finaldate.getHours()-12:finaldate.getHours()}:${finaldate.getMinutes()} ${finaldate.getHours()>12?"PM":"AM"}`;
      
 
     return (
