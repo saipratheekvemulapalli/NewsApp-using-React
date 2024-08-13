@@ -43,7 +43,7 @@ export default class News extends Component {
     this.setState({ loading: true }); // Set loading to true when starting fetch
     const apiKey = 'c8feb903a76d475993b0bc379ded400c';
     // const category = 'Sports'; //////////////////////////////////////////////////////////////// we can set the category
-    const pageSize = 6; // Number of articles per page
+    const pageSize = 21; // Number of articles per page
 
     // Update URL to use pageSize and page
     const url = `https://newsapi.org/v2/everything?q=${this.props.category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`;
