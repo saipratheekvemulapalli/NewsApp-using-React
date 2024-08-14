@@ -14,7 +14,8 @@ export default class News extends Component {
       articlesPerPage: 10,
       loading: true, // Set loading to true initially
     };
-    document.title = `${props.category} - News`
+    let upcase = `${props.category}`;
+    document.title = upcase.slice(0,1).toUpperCase()+upcase.slice(1) +" - News"
   }
 
   //   async fetchArticles(page) {
