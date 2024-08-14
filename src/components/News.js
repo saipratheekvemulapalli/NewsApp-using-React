@@ -5,8 +5,8 @@ import Spinner from './Spinner';
 import PropTypes from 'prop-types';
 
 export default class News extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       articles: [],
       currentPage: 1,
@@ -14,6 +14,7 @@ export default class News extends Component {
       articlesPerPage: 10,
       loading: true, // Set loading to true initially
     };
+    document.title = `${props.category} - News`
   }
 
   //   async fetchArticles(page) {
