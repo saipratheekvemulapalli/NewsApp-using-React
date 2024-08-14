@@ -89,3 +89,4 @@ News.defaultProps = {
   pageSize: 5,
   country: 'in',
 };
+  
