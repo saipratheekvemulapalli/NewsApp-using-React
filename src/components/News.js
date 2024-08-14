@@ -57,20 +57,21 @@ export default class News extends Component {
           loader={<Spinner />}
         >
           <div className="row">
-            {filteredArticles.map((element, index) => (
-              <div className="col-md-4" key={`${element?.url}-${index}`}>
-                <Newsitem
-                  title={element?.title ? element.title.slice(0, 45) : 'No Title Available'}
-                  description={element?.description ? element.description.slice(0, 88) : 'No Description Available'}
-                  imageUrl={element?.urlToImage ? element.urlToImage : 'https://via.placeholder.com/150'}
-                  author={element?.author || 'Unknown'}
-                  date={element?.publishedAt || 'Unknown Date'}
-                  url={element?.url}
-                  source={element?.source?.name || 'Unknown Source'}
-                />
-              </div>
-            ))}
-          </div>
+  {filteredArticles.map((element, index) => (
+    <div className="col-md-4 col-sm-6 col-12" key={`${element?.url}-${index}`}>
+      <Newsitem
+        title={element?.title ? element.title.slice(0, 45) : 'No Title Available'}
+        description={element?.description ? element.description.slice(0, 88) : 'No Description Available'}
+        imageUrl={element?.urlToImage ? element.urlToImage : 'https://via.placeholder.com/150'}
+        author={element?.author || 'Unknown'}
+        date={element?.publishedAt || 'Unknown Date'}
+        url={element?.url}
+        source={element?.source?.name || 'Unknown Source'}
+      />
+    </div>
+  ))}
+</div>
+
         </InfiniteScroll>
       </div>
     );
@@ -89,4 +90,3 @@ News.defaultProps = {
   pageSize: 5,
   country: 'in',
 };
-  

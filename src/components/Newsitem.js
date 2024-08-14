@@ -11,8 +11,8 @@ export default class Newsitem extends Component {
     let formateddate = `${finaldate.getDate()}-${finaldate.getMonth() + 1}-${finaldate.getFullYear()} ${finaldate.getHours() > 12? finaldate.getHours() - 12: finaldate.getHours()}:${finaldate.getMinutes()} ${finaldate.getHours() > 12 ? 'PM' : 'AM'}`;
 
     return (
-      <div className="my-3">
-        <div className="card" style={{ width: '18rem' }}>
+        <div className="my-3">
+        <div className="card" style={{ width: '100%' }}> {/* Full width on smaller screens */}
           <img
             src={
               !imageUrl
@@ -21,12 +21,13 @@ export default class Newsitem extends Component {
             }
             className="card-img-top"
             alt="News"
+            style={{ width: '100%', height: 'auto' }} //{/* Responsive image */}
           />
           <div className="card-body">
             <h5 className="card-title">
               {title}{' '}
               <span className="position-absolute top-0 translate-middle badge rounded-pill bg-primary" style={{left:'90%', zIndex:'1'}}>
-               {source}
+                {source}
               </span>
             </h5>
             <p className="card-text">{description}</p>
@@ -47,6 +48,7 @@ export default class Newsitem extends Component {
           </div>
         </div>
       </div>
+      
     );
   }
 }

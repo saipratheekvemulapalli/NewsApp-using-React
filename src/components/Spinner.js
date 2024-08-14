@@ -8,7 +8,7 @@ export default class Spinner extends Component {
         <img
           src={Loading}
           alt="loading"
-          style={{ width: '50px', height: '50px' }} // Adjust width and height as needed
+          style={{ width: '30px', height: '30px' }} // Adjust width and height as needed
         />
       </div>
     );
