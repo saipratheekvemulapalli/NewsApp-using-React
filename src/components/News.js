@@ -18,20 +18,35 @@ const News = ({ category = 'Home', pageSize = 5, country = 'in', apiKey, setProg
   }, [category, currentPage]);
 
   const fetchArticles = async (page) => {
-    setLoading(true);
-    setProgress(10);
-    const url = `https://newsapi.org/v2/everything?q=${category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`;
-    
-    const response = await fetch(url);
-    const data = await response.json();
-
-    setArticles((prevArticles) => prevArticles.concat(data.articles || []));
-    setCurrentPage(page);
-    setTotalResults(data.totalResults || 0);
-    setLoading(false);
-    
-    setProgress(100);
+    try {
+      setLoading(true);
+      setProgress(10);
+      const url = `https://newsapi.org/v2/everything?q=${category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (!data.articles) {
+        throw new Error('No articles found');
+      }
+      
+      setArticles((prevArticles) => prevArticles.concat(data.articles));
+      setCurrentPage(page);
+      setTotalResults(data.totalResults);
+      setLoading(false);
+      
+      setProgress(100);
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+      setLoading(false);
+      setProgress(100);
+    }
   };
+  
 
   const fetchMoreData = async () => {
     const nextPage = currentPage + 1;
