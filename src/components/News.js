@@ -58,7 +58,7 @@ const News = ({ category = 'Home', pageSize = 5, country = 'in', apiKey, setProg
 
   return (
     <div className="container my-3">
-      <h2 className="text-center" style={{ marginTop: '70px' }}>NewsApp TopHeadlines- {upcaseforheading}</h2>
+      <h2 className="text-center" style={{ marginTop: '70px' }}>NewsApp TopHeadlines - {upcaseforheading}</h2>
       {loading && <Spinner />}
       
       <InfiniteScroll
