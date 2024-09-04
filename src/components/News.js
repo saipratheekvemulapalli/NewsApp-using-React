@@ -19,6 +19,8 @@ export default class News extends Component {
 
   async fetchArticles(page) {
     this.setState({ loading: true });
+    this.props.setProgress(10);
+    // this.props.setHeight(0);
     const apiKey = 'c8feb903a76d475993b0bc379ded400c';
     const pageSize = 21;
     const url = `https://newsapi.org/v2/everything?q=${this.props.category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`;
@@ -32,6 +34,9 @@ export default class News extends Component {
       totalResults: data.totalResults || 0,  // Ensure totalResults is not undefined
       loading: false,
     });
+
+    this.props.setProgress(100);
+    // this.props.setHeight(30);
   }
 
   async componentDidMount() {

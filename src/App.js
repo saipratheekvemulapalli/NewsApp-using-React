@@ -9,19 +9,24 @@ export default class App extends Component {
 
 
   state={
-    progress:0
+    progress:0,
+   
   }
-  setProgress(progress){
-    this.setState({progress:progress})
-  }
+  setProgress = (progress,) => {
+    this.setState({ progress: progress });
+  };
+
+ 
+
+
   render() {
     return (
       <div>
         <Navbar />
         <LoadingBar
+        height={3}
         color='#f11946'
         progress={this.state.progress}
-        // onLoaderFinished={() => setProgress(0)}
       />
         <Routes>
           {/* Define routes for different categories */}
