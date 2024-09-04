@@ -4,25 +4,23 @@ import Spinner from './Spinner';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const News = (props) => {
+const News = ({ category = 'Home', pageSize = 5, country = 'in', apiKey, setProgress }) => {
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let upcase = `${props.category}`;
-    document.title = upcase.slice(0, 1).toUpperCase() + upcase.slice(1) + " - News";
+    const upcase = category.charAt(0).toUpperCase() + category.slice(1);
+    document.title = `${upcase} - News`;
 
     fetchArticles(currentPage);
-  }, []);
+  }, [category, currentPage]);
 
   const fetchArticles = async (page) => {
     setLoading(true);
-    props.setProgress(10);
-    const apiKey = 'c8feb903a76d475993b0bc379ded400c';
-    const pageSize = 21;
-    const url = `https://newsapi.org/v2/everything?q=${props.category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`;
+    setProgress(10);
+    const url = `https://newsapi.org/v2/everything?q=${category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`;
     
     const response = await fetch(url);
     const data = await response.json();
@@ -32,8 +30,8 @@ const News = (props) => {
     setTotalResults(data.totalResults || 0);
     setLoading(false);
     
-    props.setProgress(100);
-  }
+    setProgress(100);
+  };
 
   const fetchMoreData = async () => {
     const nextPage = currentPage + 1;
@@ -41,10 +39,11 @@ const News = (props) => {
   };
 
   const filteredArticles = articles.filter(article => article && article.title !== "[Removed]");
+  const upcaseforheading = category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
     <div className="container my-3">
-      <h2 className="text-center">NewsApp</h2>
+      <h2 className="text-center" style={{ marginTop: '70px' }}>NewsApp TopHeadlines- {upcaseforheading}</h2>
       {loading && <Spinner />}
       
       <InfiniteScroll
@@ -71,19 +70,14 @@ const News = (props) => {
       </InfiniteScroll>
     </div>
   );
-}
+};
 
 News.propTypes = {
   apiKey: PropTypes.string.isRequired,
   category: PropTypes.string,
   country: PropTypes.string,
   pageSize: PropTypes.number,
-};
-
-News.defaultProps = {
-  category: 'Home',
-  pageSize: 5,
-  country: 'in',
+  setProgress: PropTypes.func.isRequired,
 };
 
 export default News;
