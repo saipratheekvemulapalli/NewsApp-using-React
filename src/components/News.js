@@ -1,86 +1,76 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Newsitem from './Newsitem';
 import Spinner from './Spinner';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-export default class News extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      articles: [],
-      currentPage: 1,
-      totalResults: 0,
-      loading: true,
-    };
+const News = (props) => {
+  const [articles, setArticles] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
     let upcase = `${props.category}`;
     document.title = upcase.slice(0, 1).toUpperCase() + upcase.slice(1) + " - News";
-  }
 
-  async fetchArticles(page) {
-    this.setState({ loading: true });
-    this.props.setProgress(10);
-    // this.props.setHeight(0);
+    fetchArticles(currentPage);
+  }, []);
+
+  const fetchArticles = async (page) => {
+    setLoading(true);
+    props.setProgress(10);
     const apiKey = 'c8feb903a76d475993b0bc379ded400c';
     const pageSize = 21;
-    const url = `https://newsapi.org/v2/everything?q=${this.props.category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`;
+    const url = `https://newsapi.org/v2/everything?q=${props.category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`;
     
     const response = await fetch(url);
     const data = await response.json();
 
-    this.setState({
-      articles: this.state.articles.concat(data.articles || []),  // Append new articles, ensuring it's an array
-      currentPage: page,
-      totalResults: data.totalResults || 0,  // Ensure totalResults is not undefined
-      loading: false,
-    });
-
-    this.props.setProgress(100);
-    // this.props.setHeight(30);
+    setArticles((prevArticles) => prevArticles.concat(data.articles || []));
+    setCurrentPage(page);
+    setTotalResults(data.totalResults || 0);
+    setLoading(false);
+    
+    props.setProgress(100);
   }
 
-  async componentDidMount() {
-    await this.fetchArticles(this.state.currentPage);
-  }
-
-  fetchMoreData = async () => {
-    const nextPage = this.state.currentPage + 1;
-    await this.fetchArticles(nextPage);
+  const fetchMoreData = async () => {
+    const nextPage = currentPage + 1;
+    await fetchArticles(nextPage);
   };
 
-  render() {
-    const filteredArticles = this.state.articles.filter(article => article && article.title !== "[Removed]");
-    return (
-      <div className="container my-3">
-        <h2 className="text-center">NewsApp</h2>
-        {this.state.loading && <Spinner />}
-        
-        <InfiniteScroll
-          dataLength={this.state.articles.length}
-          next={this.fetchMoreData}
-          hasMore={this.state.articles.length < this.state.totalResults}  // Compare length with totalResults
-          loader={<Spinner />}
-        >
-          <div className="row">
-  {filteredArticles.map((element, index) => (
-    <div className="col-md-4 col-sm-6 col-12" key={`${element?.url}-${index}`}>
-      <Newsitem
-        title={element?.title ? element.title.slice(0, 45) : 'No Title Available'}
-        description={element?.description ? element.description.slice(0, 88) : 'No Description Available'}
-        imageUrl={element?.urlToImage ? element.urlToImage : 'https://via.placeholder.com/150'}
-        author={element?.author || 'Unknown'}
-        date={element?.publishedAt || 'Unknown Date'}
-        url={element?.url}
-        source={element?.source?.name || 'Unknown Source'}
-      />
-    </div>
-  ))}
-</div>
+  const filteredArticles = articles.filter(article => article && article.title !== "[Removed]");
 
-        </InfiniteScroll>
-      </div>
-    );
-  }
+  return (
+    <div className="container my-3">
+      <h2 className="text-center">NewsApp</h2>
+      {loading && <Spinner />}
+      
+      <InfiniteScroll
+        dataLength={articles.length}
+        next={fetchMoreData}
+        hasMore={articles.length < totalResults}
+        loader={<Spinner />}
+      >
+        <div className="row">
+          {filteredArticles.map((element, index) => (
+            <div className="col-md-4 col-sm-6 col-12" key={`${element?.url}-${index}`}>
+              <Newsitem
+                title={element?.title ? element.title.slice(0, 45) : 'No Title Available'}
+                description={element?.description ? element.description.slice(0, 88) : 'No Description Available'}
+                imageUrl={element?.urlToImage ? element.urlToImage : 'https://via.placeholder.com/150'}
+                author={element?.author || 'Unknown'}
+                date={element?.publishedAt || 'Unknown Date'}
+                url={element?.url}
+                source={element?.source?.name || 'Unknown Source'}
+              />
+            </div>
+          ))}
+        </div>
+      </InfiniteScroll>
+    </div>
+  );
 }
 
 News.propTypes = {
@@ -95,3 +85,5 @@ News.defaultProps = {
   pageSize: 5,
   country: 'in',
 };
+
+export default News;

@@ -29,7 +29,7 @@ export default class App extends Component {
         progress={this.state.progress}
       />
         <Routes>
-          {/* Define routes for different categories */}
+          
           <Route
             path="/"
             element={
@@ -66,7 +66,6 @@ export default class App extends Component {
               />
             }
           />
-          {/* <Route path="/general" element={<News setProgress={setProgress} key="general" apiKey="c8feb903a76d475993b0bc379ded400c" category="general" country="in" pageSize={6} />} /> */}
           <Route
             path="/health"
             element={

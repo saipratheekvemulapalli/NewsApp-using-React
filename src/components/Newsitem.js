@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class Newsitem extends Component {
-  render() {
-    const { title, description, imageUrl, url, author, date, source} = this.props;
-    // if(title==="[Removed]"){
-    //     return null;
-    // }
+const Newsitem=(props)=>   {
+
+    const { title, description, imageUrl, url, author, date, source} = props;
+    
     
     let finaldate = new Date(date);
     let formateddate = `${finaldate.getDate()}-${finaldate.getMonth() + 1}-${finaldate.getFullYear()} ${finaldate.getHours() > 12? finaldate.getHours() - 12: finaldate.getHours()}:${finaldate.getMinutes()} ${finaldate.getHours() > 12 ? 'PM' : 'AM'}`;
 
     return (
         <div className="my-3">
-        <div className="card" style={{ width: '100%' }}> {/* Full width on smaller screens */}
+        <div className="card" style={{ width: '100%' }}> 
           <img
             src={
               !imageUrl
@@ -21,7 +19,7 @@ export default class Newsitem extends Component {
             }
             className="card-img-top"
             alt="News"
-            style={{ width: '100%', height: 'auto' }} //{/* Responsive image */}
+            style={{ width: '100%', height: 'auto' }} 
           />
           <div className="card-body">
             <h5 className="card-title">
@@ -50,5 +48,7 @@ export default class Newsitem extends Component {
       </div>
       
     );
-  }
+  
 }
+
+export default Newsitem

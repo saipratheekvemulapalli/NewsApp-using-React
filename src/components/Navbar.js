@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 
-export class Navbar extends Component {
-  render() {
+const Navbar=(props)=> {
+
     return (
       <div>
         <div className="navbar1">
@@ -72,7 +72,7 @@ export class Navbar extends Component {
         </div>
       </div>
     );
-  }
+  
 }
 
 export default Navbar;
